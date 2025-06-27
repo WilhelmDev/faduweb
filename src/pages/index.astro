@@ -1,0 +1,20 @@
+---
+import { getOpinions } from '@/services/opinion.service';
+import Layout from '../layouts/Layout.astro';
+import { OpinionView } from '@/components/opinions/OpinionView';
+import type { Opinion } from '@/interfaces/Opinion';
+
+let opinions: Opinion[] = [];
+try {
+    const data = await getOpinions(20, 0);
+    opinions = data
+} catch (error) {
+    // console.log(error)
+}
+---
+
+<Layout title="MuyFadu - Tu Compañero Universitario">
+    <main>
+        <OpinionView opinions={opinions} client:load/>
+    </main>
+</Layout>

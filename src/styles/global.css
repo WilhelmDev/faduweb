@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  
+  /* Color principal y sus variaciones */
+  --primary: oklch(0.65 0.18 30.5); /* #DA673A */
+  --primary-light: oklch(0.75 0.15 30.5);
+  --primary-dark: oklch(0.55 0.20 30.5);
+  
+  /* Colores de fondo y texto */
+  --background: oklch(0.98 0.005 30.5);
+  --foreground: oklch(0.2 0.02 30.5);
+  
+  /* Colores complementarios */
+  --secondary: oklch(0.65 0.12 210); /* Azul complementario */
+  --accent: oklch(0.70 0.15 150); /* Verde-azulado */
+  
+  /* Colores neutrales */
+  --muted: oklch(0.85 0.02 30.5);
+  --muted-foreground: oklch(0.55 0.02 30.5);
+  
+  /* Otros colores funcionales */
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --border: oklch(0.85 0.02 30.5);
+  --input: var(--border);
+  --ring: oklch(0.7 0.1 30.5);
+  
+  /* Colores para gráficos */
+  --chart-1: var(--primary);
+  --chart-2: var(--secondary);
+  --chart-3: var(--accent);
+  --chart-4: oklch(0.65 0.15 60);
+  --chart-5: oklch(0.65 0.15 0);
+  
+  /* Colores para la barra lateral */
+  --sidebar: oklch(0.95 0.01 30.5);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: oklch(0.2 0.02 150);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  
+  /* Color destructivo */
+  --destructive: oklch(0.65 0.3 25);
+}
+
+.dark {
+  --background: oklch(0.2 0.02 30.5);
+  --foreground: oklch(0.95 0.005 30.5);
+  
+  --primary: oklch(0.65 0.18 30.5); /* Mantenemos el color principal */
+  --primary-light: oklch(0.75 0.15 30.5);
+  --primary-dark: oklch(0.55 0.20 30.5);
+  
+  --secondary: oklch(0.55 0.12 210);
+  --accent: oklch(0.60 0.15 150);
+  
+  --muted: oklch(0.35 0.02 30.5);
+  --muted-foreground: oklch(0.75 0.02 30.5);
+  
+  --card: oklch(0.25 0.02 30.5);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  
+  --border: oklch(0.35 0.02 30.5);
+  --input: var(--border);
+  --ring: oklch(0.5 0.1 30.5);
+  
+  /* Ajustamos los colores de los gráficos para mejor contraste en modo oscuro */
+  --chart-1: oklch(0.70 0.18 30.5);
+  --chart-2: oklch(0.60 0.12 210);
+  --chart-3: oklch(0.65 0.15 150);
+  --chart-4: oklch(0.70 0.15 60);
+  --chart-5: oklch(0.70 0.15 0);
+  
+  --sidebar: oklch(0.25 0.02 30.5);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary-light);
+  --sidebar-primary-foreground: oklch(0.2 0.02 30.5);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: oklch(0.95 0.005 150);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  
+  --destructive: oklch(0.70 0.3 25);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
