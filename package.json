@@ -2,11 +2,16 @@
   "name": "muyfaduweb",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": "20.16.x",
+    "pnpm": ">=9.6.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "start": "astro dev"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
