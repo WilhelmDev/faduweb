@@ -3,7 +3,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse 
 
 // Configuración base para todas las peticiones
 const baseConfig: AxiosRequestConfig = {
-  baseURL: `${import.meta.env.API_URL}`
+  baseURL: `${import.meta.env.PUBLIC_API_URL}`
   // timeout: 10000, // 10 segundos
 };
 
