@@ -1,13 +1,25 @@
 import { atom } from 'nanostores';
 
-export const isAuthenticated = atom(false);
+// Función para obtener el token inicial del localStorage
+const getInitialToken = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('authToken');
+  }
+  return null;
+};
 
-export function login() {
-  // Aquí iría la lógica real de login
+export const authToken = atom<string | null>(getInitialToken());
+
+export const isAuthenticated = atom<boolean>(!!getInitialToken());
+
+export function login(token: string) {
+  localStorage.setItem('authToken', token);
+  authToken.set(token);
   isAuthenticated.set(true);
 }
 
 export function logout() {
-  // Aquí iría la lógica real de logout
+  localStorage.removeItem('authToken');
+  authToken.set(null);
   isAuthenticated.set(false);
 }

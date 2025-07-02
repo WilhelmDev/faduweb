@@ -16,7 +16,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      login();
+      login("token");
       onClose();
     } catch (error) {
       console.error('Error durante el inicio de sesión:', error);
