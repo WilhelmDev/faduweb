@@ -1,5 +1,6 @@
 ---
 import { Button } from "@/components/ui/button";
+import AuthButton from "./AuthButton";
 ---
 
 <header class="bg-background border-b border-border">
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
         <a href="/" class="text-foreground hover:text-primary transition-colors">Opiniones</a>
         <!-- Agrega más enlaces de navegación aquí conforme tu web crezca -->
       </nav>
-      <Button variant="outline">Iniciar sesión</Button>
+      <AuthButton client:load/>
     </div>
   </div>
 </header>
