@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { login } from '@/stores/authStore';
+import { getCurrentUser, login } from '@/stores/authStore';
 import { X, Loader2, AlertCircle } from 'lucide-react';
 import { loginUser } from '@/services/auth.service';
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import type { User } from '@/interfaces/User';
 
 interface LoginModalProps {
   isOpen: boolean;
