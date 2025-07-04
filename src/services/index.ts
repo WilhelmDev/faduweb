@@ -1,5 +1,7 @@
 
+import { authToken, logout } from '@/stores/authStore';
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { toast } from 'sonner';
 
 // Configuración base para todas las peticiones
 const baseConfig: AxiosRequestConfig = {
@@ -13,11 +15,10 @@ const axiosInstance: AxiosInstance = axios.create(baseConfig);
 // Interceptor para las solicitudes
 axiosInstance.interceptors.request.use(
   (config) => {
-    //todo Add token logic
-    // const token = localStorage.getItem('authToken');
-    // if (token) {
-    //   config.headers['Authorization'] = `Bearer ${token}`;
-    // }
+    const token = authToken.get();
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token || ''}`;
+    }
     return config;
   },
   (error) => {
@@ -37,6 +38,19 @@ axiosInstance.interceptors.response.use(
       // El servidor respondió con un código de estado fuera del rango 2xx
       console.error('Error de respuesta:', error.response.data);
       console.error('Código de estado:', error.response.status);
+
+      // Verificar si es un error 401 y la URL no es /auth/login
+      if (error.response.status === 401 && !error.config.url.includes('/auth/login')) {
+        // Aplicar lógica de logout
+        logout();
+
+        // Mostrar mensaje al usuario usando Sonner
+        toast.error('Sesión expirada', {
+          description: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+          duration: 3000, // 3 segundos
+          position: 'top-center',
+        });
+      }
     } else if (error.request) {
       // La solicitud fue hecha pero no se recibió respuesta
       console.error('Error de solicitud:', error.request);
