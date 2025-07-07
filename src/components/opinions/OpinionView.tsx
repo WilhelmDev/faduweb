@@ -96,7 +96,12 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
         position: 'top-center',
       });
     } catch (error) {
-      
+      console.error('Error creating opinion', error);
+      toast.error('Error al crear la opinión', {
+        description: 'Ocurrió un error al crear tu opinion. Por favor, intente de nuevo más tarde.',
+        duration: 3000, // 3 segundos
+        position: 'top-center',
+      });
     }
 
   }
