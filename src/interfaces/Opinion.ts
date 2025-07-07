@@ -38,3 +38,13 @@ export interface OpinionAnswer{
     "updated_at": Date,
     "student": User
 }
+
+export interface OpinionPayload {
+    title: string
+    anonymous: number,
+    description: string,
+    currentSchoolYear: string,
+    subject_id: number,
+    tags: [],
+    professor: string,
+}

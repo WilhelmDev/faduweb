@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,36 +6,66 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { X } from 'lucide-react';
 import type { Subject } from '@/interfaces/Subject';
+import { getCurrentUser } from '@/stores/authStore';
+import { getSubjectsByCareer } from '@/services/subject.service';
+import type { OpinionPayload } from '@/interfaces/Opinion';
 
 interface CreateOpinionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  subjects: Subject[];
-  onSubmit: (opinionData: any) => void;
+  onSubmit: (opinionData: OpinionPayload) => void;
 }
 
-const CreateOpinionModal: React.FC<CreateOpinionModalProps> = ({ isOpen, onClose, subjects, onSubmit }) => {
+const CreateOpinionModal: React.FC<CreateOpinionModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const [subjectId, setSubjectId] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [year, setYear] = useState('');
   const [professor, setProfessor] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [professrs, setProfessors] = useState<string[]>([]);
+
+  const fetchSubjects = async () => {
+    const user = getCurrentUser();
+    if (!user) return;
+    try {
+      const data = await getSubjectsByCareer(user.career_id);
+      setSubjects(data);
+    } catch (error) {
+      console.error('Error fetching subjects', error);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
-      subjectId: parseInt(subjectId),
+      subject_id: parseInt(subjectId),
       title,
       description,
-      year: parseInt(year),
+      currentSchoolYear: year,
       professor,
-      isAnonymous
+      anonymous: isAnonymous ? 1 : 0,
+      tags: [],
     });
     onClose();
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      fetchSubjects();
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (subjectId) {
+      const subject = subjects.find((s) => s.id === parseInt(subjectId)) as Subject;
+      setProfessors(subject.chairs)
+    }
+  }, [subjectId])
+
   if (!isOpen) return null;
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 px-4 py-6 sm:p-0">
@@ -95,7 +125,18 @@ const CreateOpinionModal: React.FC<CreateOpinionModalProps> = ({ isOpen, onClose
           
           <div className="space-y-2">
             <label htmlFor="professor" className="block text-sm font-medium text-muted-foreground">Cátedra (Profesor)</label>
-            <Input id="professor" value={professor} onChange={(e) => setProfessor(e.target.value)} required className="w-full" />
+            <Select onValueChange={setProfessor} value={professor}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecciona una cátedra" />
+              </SelectTrigger>
+              <SelectContent>
+                {professrs.map((prof, index) => (
+                  <SelectItem key={index} value={prof}>
+                    {prof}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           
           <div className="flex items-center space-x-2">

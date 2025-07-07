@@ -1,4 +1,4 @@
-import type { Opinion } from "@/interfaces/Opinion";
+import type { Opinion, OpinionPayload } from "@/interfaces/Opinion";
 import Api from "@/services";
 
 export async  function getOpinions(limit: number, offset: number, career_id?:number, subject_id?:number): Promise<Opinion[]> {
@@ -19,6 +19,15 @@ export async function getOpinionById(id: number): Promise<Opinion> {
   try {
     const opinion = await Api.get<Opinion>(`/opinion/${id}/web`);
     return opinion;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createOpinion(opinion: OpinionPayload): Promise<Opinion> {
+  try {
+    const createdOpinion = await Api.post<Opinion>('/opinion/create', opinion);
+    return createdOpinion;
   } catch (error) {
     throw error;
   }
