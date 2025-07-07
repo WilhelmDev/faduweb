@@ -6,7 +6,8 @@ export interface Subject{
     "created_at": Date,
     "updated_at": Date,
     "subjectCategory": SubjectCategory,
-    "userSubject": UserSubject[]
+    "userSubject": UserSubject[],
+    "chairs": string[]
 }
 export interface UserSubject{
     "id": number,

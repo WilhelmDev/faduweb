@@ -9,3 +9,12 @@ export async function getSubjects() {
     throw error;
   }
 }
+
+export async function getSubjectsByCareer(careerId: number) {
+  try {
+    const subjects = await Api.get<Subject[]>(`/subject/career/${careerId}`);
+    return subjects;
+  } catch (error) {
+    throw error;
+  }
+}

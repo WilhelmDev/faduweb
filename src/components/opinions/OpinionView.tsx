@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from 'lucide-react';
-import type { Opinion } from '@/interfaces/Opinion';
+import type { Opinion, OpinionPayload } from '@/interfaces/Opinion';
 import { FilterOpinions } from './OpinionFilters';
 import type { Subject } from '@/interfaces/Subject';
 import type { Career } from '@/interfaces/Career';
 import { getSubjects } from '@/services/subject.service';
 import { getAllCareers } from '@/services/career.service';
-import { getOpinions } from '@/services/opinion.service';
+import { createOpinion, getOpinions } from '@/services/opinion.service';
 import OpinionItem from './OpinionItem';
 import OpinionDetailModal from './OpinionDetailModal';
 import CreateOpinionModal from './CreateOpinionModal';
 import { useStore } from '@nanostores/react';
 import { isAuthenticated } from '@/stores/authStore'; // Asegúrate de que la ruta sea correcta
+import { toast } from 'sonner';
 
 interface OpinionViewProps {}
 
@@ -82,6 +83,27 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
   const openModal = (opinion:Opinion) => {
     setSelectedOpinion(opinion);
     setShowDetailModal(true);
+  }
+
+  const handleCreateOpinion = async (payload: OpinionPayload) => {
+    try {
+      await createOpinion(payload);
+      setShowCreateModal(false);
+      fetchOpinions(true);
+      toast.success('Opinión creada exitosamente', {
+        description: 'Tu opinion ha sido creada con éxito.',
+        duration: 2000, // 3 segundos
+        position: 'top-center',
+      });
+    } catch (error) {
+      console.error('Error creating opinion', error);
+      toast.error('Error al crear la opinión', {
+        description: 'Ocurrió un error al crear tu opinion. Por favor, intente de nuevo más tarde.',
+        duration: 3000, // 3 segundos
+        position: 'top-center',
+      });
+    }
+
   }
 
   return (
@@ -155,12 +177,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
       <CreateOpinionModal 
         isOpen={showCreateModal} 
         onClose={() => setShowCreateModal(false)} 
-        onSubmit={() => {
-          // Implementa la lógica para manejar la creación de una nueva opinión
-          setShowCreateModal(false);
-          fetchOpinions(true); // Recarga las opiniones después de crear una nueva
-        }} 
-        subjects={subjects}
+        onSubmit={handleCreateOpinion} 
       />
     </div>
   );

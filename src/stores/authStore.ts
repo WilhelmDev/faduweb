@@ -38,5 +38,20 @@ export function logout() {
 
 // Función para obtener los datos del usuario actual
 export function getCurrentUser(): User | null {
-  return currentUser.get();
+  const user = currentUser.get();
+  if (user) {
+    return user;
+  }
+  const token = authToken.get();
+  if (token) {
+    try {
+      const data: { userData: User } = jwtDecode(token);
+      currentUser.set(data.userData);
+      return data.userData;
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      currentUser.set(null);
+    }
+  }
+  return null;
 }
