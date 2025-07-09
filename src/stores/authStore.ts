@@ -13,6 +13,7 @@ const getInitialToken = () => {
 export const authToken = atom<string | null>(getInitialToken());
 export const isAuthenticated = atom<boolean>(!!getInitialToken());
 export const currentUser = atom<User | null>(null);
+export const isInOnboarding = atom<boolean>(false);
 
 export function login(token: string) {
   localStorage.setItem('authToken', token);
@@ -23,6 +24,9 @@ export function login(token: string) {
   try {
     const data: { userData: User } = jwtDecode(token);
     currentUser.set(data.userData);
+    setTimeout(() => {
+      isInOnboarding.set(data.userData.career_id === null);
+    }, 2000);
   } catch (error) {
     console.error('Error al decodificar el token:', error);
     currentUser.set(null);

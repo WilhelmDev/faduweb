@@ -37,3 +37,15 @@ export interface Role{
   "created_at": Date,
   "updated_at": Date
 }
+
+export type UserPayload = {
+  email: string
+  emailError: null,
+  password: string
+  passwordError: null,
+  name: string
+  lastname: string
+  apple_user: boolean,
+  role_id: number,
+  username: string
+}

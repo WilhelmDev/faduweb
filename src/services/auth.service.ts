@@ -1,3 +1,4 @@
+import type { UserPayload } from "@/interfaces/User";
 import Api from "@/services";
 
 export async function loginUser(userOrEmail: string, password: string) {
@@ -15,6 +16,15 @@ export async function loginUser(userOrEmail: string, password: string) {
 export async function validateToken() {
   try {
     const data = await Api.get<{token: string}>('/auth/validate-token')
+    return data.token
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createUser(payload:UserPayload) {
+  try {
+    const data = await Api.post<{ token:string }>('/auth/register', payload)
     return data.token
   } catch (error) {
     throw error;
