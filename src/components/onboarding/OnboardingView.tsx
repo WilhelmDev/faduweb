@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { isAuthenticated, isInOnboarding, getCurrentUser, currentUser as userStore } from '@/stores/authStore';
+import { isAuthenticated, isInOnboarding, getCurrentUser, currentUser as userStore, login } from '@/stores/authStore';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { useForm, Controller } from 'react-hook-form';
 import * as z from 'zod';
 import { toast } from 'sonner';
 import type { Career } from '@/interfaces/Career';
-import { updateUser } from '@/services/auth.service';
+import { revalidateToken, updateUser } from '@/services/auth.service';
 
 // Función para comprimir y convertir la imagen a base64
 const compressAndConvertToBase64 = (file: File): Promise<string> => {
@@ -126,9 +126,11 @@ const OnboardingView: React.FC = () => {
         formData.append('image', compressedImage);
       }
 
-      const updatedUser = await updateUser(currentUser.id, formData);
+      await updateUser(currentUser.id, formData);
+      const newToken = await revalidateToken()
       isInOnboarding.set(false);
-      userStore.set(updatedUser);
+      login(newToken);
+
       toast.success('Perfil actualizado', {
         description: 'Tu información ha sido actualizada exitosamente.',
         duration: 2000,

@@ -39,3 +39,12 @@ export async function updateUser(userId: number, payload: FormData) {
     throw error;
   }
 }
+
+export async function revalidateToken() {
+  try {
+    const data = await Api.get<{token: string}>('/auth/validate-token')
+    return data.token
+  } catch (error) {
+    throw error;
+  }
+}
