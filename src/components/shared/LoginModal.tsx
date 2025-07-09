@@ -11,9 +11,10 @@ import type { User } from '@/interfaces/User';
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onRegisterClick: () => void; // Nueva prop para manejar el clic en "Registrarse"
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onRegisterClick }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -102,6 +103,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             )}
           </Button>
         </form>
+        <div className="mt-4 text-center">
+          <span className="text-sm text-muted-foreground">¿No tienes una cuenta? </span>
+          <Button 
+            variant="link" 
+            className="text-sm text-primary p-0 cursor-pointer" 
+            onClick={() => {
+              onClose();
+              onRegisterClick();
+            }}
+          >
+            Regístrate aquí
+          </Button>
+        </div>
       </div>
     </div>
   );
