@@ -1,4 +1,4 @@
-import type { UserPayload } from "@/interfaces/User";
+import type { User, UserPayload } from "@/interfaces/User";
 import Api from "@/services";
 
 export async function loginUser(userOrEmail: string, password: string) {
@@ -26,6 +26,15 @@ export async function createUser(payload:UserPayload) {
   try {
     const data = await Api.post<{ token:string }>('/auth/register', payload)
     return data.token
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateUser(userId: number, payload: FormData) {
+  try {
+    const data = await Api.put<User>(`/auth/update/${userId}`, payload)
+    return data
   } catch (error) {
     throw error;
   }

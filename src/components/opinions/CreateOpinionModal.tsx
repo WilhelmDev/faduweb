@@ -55,6 +55,7 @@ const CreateOpinionModal: React.FC<CreateOpinionModalProps> = ({ isOpen, onClose
 
   const fetchSubjects = async () => {
     const user = getCurrentUser();
+    console.log(user)
     if (!user) return;
     try {
       const data = await getSubjectsByCareer(user.career_id);
