@@ -116,9 +116,9 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-col sm:flex-row justify-center items-start sm:items-center mb-6 gap-4">
+      {/* <div className="flex flex-col sm:flex-row justify-center items-start sm:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-primary">Opiniones de Estudiantes</h1>
-      </div>
+      </div> */}
 
       <FilterOpinions 
         subjects={subjects} 

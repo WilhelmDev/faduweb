@@ -31,14 +31,14 @@ export default function OpinionItem({ opinion, onViewDetails }: Props) {
             Cátedra: {opinion.professor}
           </p>
         )}
-        <p className="text-muted-foreground mb-3 whitespace-pre-wrap">{opinion.description}</p>
-        <div className="flex flex-wrap gap-2 mb-3">
+        <p className="text-muted-foreground  whitespace-pre-wrap">{opinion.description}</p>
+        <div className="flex flex-wrap gap-2">
           {opinion.opinionTags.map((tag) => (
             <Badge key={tag.id} variant="secondary" className="text-xs">{tag.tag.name}</Badge>
           ))}
         </div>
       </div>
-      <div className="bg-muted px-4 py-3 flex justify-between items-center">
+      <div className=" px-4 pb-3 flex justify-between items-center">
         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
           <span className="flex items-center">
             <MessageCircle className="w-4 h-4 mr-1" />
@@ -49,10 +49,15 @@ export default function OpinionItem({ opinion, onViewDetails }: Props) {
             {new Date(opinion.created_at).toLocaleDateString()}
           </span>
         </div>
-        {/* <Button variant="ghost" size="sm" onClick={() => onViewDetails(opinion)}>
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          onClick={() => onViewDetails(opinion)}
+          className="bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary-dark transition-colors cursor-pointer"
+        >
           <Eye className="w-4 h-4 mr-1" />
           Ver más
-        </Button> */}
+        </Button>
       </div>
     </div>
   );
