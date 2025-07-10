@@ -1,10 +1,10 @@
 import type { Opinion, OpinionPayload } from "@/interfaces/Opinion";
 import Api from "@/services";
 
-export async  function getOpinions(limit: number, offset: number, career_id?:number, subject_id?:number): Promise<Opinion[]> {
+export async  function getOpinions(limit: number, offset: number, search:string, career_id?:number, subject_id?:number): Promise<Opinion[]> {
   try {
     const opinions = await Api.get<Opinion[]>('/opinion/all/web', { params: {
-      limit, offset,
+      limit, offset, search,
       ...((career_id && career_id > 0) ? { career_id }: {}),
       ...((subject_id && subject_id > 0) ? { subject_id }: {})
       }}
