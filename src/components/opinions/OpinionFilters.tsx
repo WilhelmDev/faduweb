@@ -47,12 +47,13 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
   }, []);
 
   return (
-    <div className="flex flex-wrap-reverse flex-row-reverse items-center md:justify-center md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+    <div className="flex flex-col-reverse items-center md:justify-center md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+      <div className="flex w-full md:w-2/6 sm:gap-4">
       <Select
         onValueChange={(value) => setSelectedCareer(value)}
         value={selectedCareer}
       >
-        <SelectTrigger className="w-1/2 md:w-1/6">
+        <SelectTrigger className="w-1/2">
           <SelectValue placeholder="Seleccionar Carrera" />
         </SelectTrigger>
         <SelectContent>
@@ -69,7 +70,7 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
         onValueChange={(value) => setSelectedSubject(value)}
         value={selectedSubject}
       >
-        <SelectTrigger className="w-1/2 md:w-1/6">
+        <SelectTrigger className="w-1/2">
           <SelectValue placeholder="Seleccionar Materia" />
         </SelectTrigger>
         <SelectContent>
@@ -81,6 +82,8 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
           ))}
         </SelectContent>
       </Select>
+
+      </div>
 
       <Input
         type="text"
