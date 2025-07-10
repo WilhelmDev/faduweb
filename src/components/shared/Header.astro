@@ -1,19 +1,57 @@
 ---
 import { Button } from "@/components/ui/button";
 import AuthButton from "./AuthButton";
+import { Image } from "astro:assets";
+import image from "../../../public/new-logo.png";
+import { isAuthenticated } from '@/stores/authStore';
+import CreateOpinionButton from "./CreateOpinionButton";
+import NavigationLinks from "./NavigationLinks";
+import { Menu } from "lucide-react";
+
 ---
 
 <header class="bg-background border-b border-border">
   <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-    <div>
-      <a href="/" class="text-2xl font-bold text-primary">MuyFadu</a>
+    <div class="flex items-center">
+      <a href="/" class="flex items-center">
+        <Image src={image} alt="MuyFadu Logo" class="h-8 w-8 md:h-12 md:w-auto aspect-square" />
+      </a>
     </div>
-    <div class="flex items-center space-x-6">
-      <nav class="flex space-x-6">
-        <a href="/" class="text-foreground hover:text-primary transition-colors">Opiniones</a>
-        <!-- Agrega más enlaces de navegación aquí conforme tu web crezca -->
+    <div class="flex items-center space-x-2 md:space-x-6">
+      <nav class="hidden md:flex items-center space-x-4">
+        <NavigationLinks client:load />
       </nav>
-      <AuthButton client:load/>
+      <div class="flex items-center gap-2">
+        <div class="md:hidden">
+          <Button variant="ghost" size="icon" id="mobileMenuButton">
+            <Menu className="!h-8 !w-8"/>
+          </Button>
+        </div>
+        <div class="hidden md:flex gap-2">
+          <CreateOpinionButton client:load />
+          <AuthButton client:load/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden">
+    <div class="px-4 py-2 space-y-2 flex flex-col gap-2">
+      <NavigationLinks client:load />
+      <div class="flex justify-between">
+        <CreateOpinionButton client:load />
+        <AuthButton client:load/>
+      </div>
     </div>
   </div>
 </header>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobileMenuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+</script>
