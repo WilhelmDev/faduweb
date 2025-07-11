@@ -46,10 +46,17 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
     }
   }
 
-  const fetchOpinions = async (reload: boolean) => {
+  const fetchOpinions = async (reload: boolean, text?: string, career?: number | null, subject?: number | null) => {
+    if (loading) return;
     try {
       setLoading(true);
-      const newOpinions = await getOpinions(15, page * 15, searchText, filterCareer || 0, filterSubject || 0);
+      const newOpinions = await getOpinions(
+        15, 
+        page * 15, 
+        text || '', 
+        career === null ? 0 : career || 0, 
+        subject === null ? 0 : subject || 0
+      );
       if (newOpinions.length < 15) {
         setCanLoadMore(false);
       }
@@ -78,14 +85,19 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
   }, [$isCreateOpinionModalOpen])
 
   
-  const handleFilterChange = (careerId: string | null, subjectId: string | null, search: string) => {
-    setFilterCareer(careerId === "0"? null : parseInt(careerId || '0'));
-    setFilterSubject(subjectId === "0"? null : parseInt(subjectId || '0'));
+  const handleFilterChange = async (careerId: string | null, subjectId: string | null, search: string) => {
+    const newFilterCareer = careerId === "0" ? null : parseInt(careerId || '0');
+    const newFilterSubject = subjectId === "0" ? null : parseInt(subjectId || '0');
+    
+    setFilterCareer(newFilterCareer);
+    setFilterSubject(newFilterSubject);
     setSearchText(search);
     setPage(0);
     setCanLoadMore(true);
     setOpinions([]);
-    fetchOpinions(true);
+    
+    // Usa los nuevos valores directamente en lugar de los estados
+    fetchOpinions(true, search, newFilterCareer, newFilterSubject);
   }
 
   const openModal = (opinion:Opinion) => {
