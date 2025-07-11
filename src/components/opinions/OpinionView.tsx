@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from 'lucide-react';
 import type { Opinion, OpinionPayload } from '@/interfaces/Opinion';
@@ -84,6 +84,12 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
     setShowCreateModal($isCreateOpinionModalOpen)
   }, [$isCreateOpinionModalOpen])
 
+  const filtredSubjects = useMemo(() => {
+    if (!filterCareer) return subjects;
+    const filtred = subjects.filter((s) => s.subjectCategory.career_id === filterCareer);
+    return filtred;
+  }, [filterCareer])
+
   
   const handleFilterChange = async (careerId: string | null, subjectId: string | null, search: string) => {
     const newFilterCareer = careerId === "0" ? null : parseInt(careerId || '0');
@@ -133,7 +139,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
       </div> */}
 
       <FilterOpinions 
-        subjects={subjects} 
+        subjects={filtredSubjects} 
         careers={careers} 
         onFilter={handleFilterChange}
       />
