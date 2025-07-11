@@ -141,3 +141,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .btn-base {
+    @apply bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary-dark transition-colors cursor-pointer;
+  }
+}

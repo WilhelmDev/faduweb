@@ -23,8 +23,7 @@ const CreateOpinionButton: React.FC = () => {
   return (
     <Button 
       onClick={handleCreateOpinion} 
-      variant="outline" 
-      className="text-primary hover:bg-primary/10 hover:text-primary-dark cursor-pointer"
+      variant="secondary" 
     >
       Crear Opinión
     </Button>
