@@ -165,7 +165,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
               <Button 
                 onClick={handleLoadMore} 
                 disabled={loading}
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                variant="secondary"
               >
                 {loading ? (
                   <>

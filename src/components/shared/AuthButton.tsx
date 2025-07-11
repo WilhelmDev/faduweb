@@ -34,7 +34,7 @@ const AuthButton: React.FC = () => {
   }
 
   return (
-    <Button variant="outline" onClick={openLoginModal}>
+    <Button variant="secondary" onClick={openLoginModal}>
       Iniciar sesión
     </Button>
   );
