@@ -23,9 +23,8 @@ const AuthButton: React.FC = () => {
   if ($isAuthenticated && $currentUser) {
     return (
       <Button 
-        variant="outline" 
+        variant="secondary" 
         onClick={logout} 
-        className="flex items-center space-x-2"
       >
         <span>{$currentUser.name}</span>
         <LogOut className="h-4 w-4" />

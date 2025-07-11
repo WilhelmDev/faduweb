@@ -38,6 +38,7 @@ export function logout() {
   authToken.set(null);
   isAuthenticated.set(false);
   currentUser.set(null);
+  window.location.href = '/';
 }
 
 // Función para obtener los datos del usuario actual

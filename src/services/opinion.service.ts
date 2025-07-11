@@ -15,6 +15,15 @@ export async  function getOpinions(limit: number, offset: number, search:string,
   }
 }
 
+export async function getOpinionsByStudent(studentId: number): Promise<Opinion[]> {
+  try {
+    const opinions = await Api.get<Opinion[]>(`opinion/all?offset=0&student_id=${studentId}`);
+    return opinions;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getOpinionById(id: number): Promise<Opinion> {
   try {
     const opinion = await Api.get<Opinion>(`/opinion/${id}/web`);
