@@ -15,6 +15,7 @@ import { useStore } from '@nanostores/react';
 import { isAuthenticated } from '@/stores/authStore'; // Asegúrate de que la ruta sea correcta
 import { toast } from 'sonner';
 import { closeModals, isCreateOpinionModalOpen } from '@/stores/modalStore';
+import CreateOpinionButton from '../shared/CreateOpinionButton';
 
 interface OpinionViewProps {}
 
@@ -178,10 +179,17 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
               </Button>
             </div>
           ) : (
-            opinions.length > 0 && (
+            opinions.length > 0 ? (
               <p className="text-center mt-8 text-muted-foreground">
                 No hay más opiniones para cargar.
               </p>
+            ) : (
+              <div className='flex flex-col items-center gap-5'>
+                <p className="text-center text-sm text-muted-foreground">
+                  Aún no hay opiniones, ¡Sé el primero en dejar una!
+                </p>
+                <CreateOpinionButton />
+              </div>
             )
           )}
         </>
