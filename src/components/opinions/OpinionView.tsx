@@ -32,6 +32,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [totalResults, setTotalResults] = useState<number>(0);
 
   const $isAuthenticated = useStore(isAuthenticated);
   const $isCreateOpinionModalOpen = useStore(isCreateOpinionModalOpen);
@@ -58,10 +59,11 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
         career === null ? 0 : career || 0, 
         subject === null ? 0 : subject || 0
       );
-      if (newOpinions.length < 15) {
+      if (newOpinions.data.length < 15) {
         setCanLoadMore(false);
       }
-      setOpinions((prev) => reload ? newOpinions : [...prev, ...newOpinions]);
+      setOpinions((prev) => reload ? newOpinions.data : [...prev, ...newOpinions.data]);
+      setTotalResults(newOpinions.meta.total_elements);
     } catch (error) {
       console.error('Error fetching opinions', error);
     } finally {
@@ -151,6 +153,9 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
         </div>
       ) : (
         <>
+        <p className="text-sm text-muted-foreground mt-4 mb-6 text-center">
+          Total de resultados: {totalResults}
+        </p>
           <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
             {opinions.map((opinion) => (
               <OpinionItem 
