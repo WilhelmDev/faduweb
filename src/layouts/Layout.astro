@@ -6,6 +6,7 @@ import { AuthInitializer } from '@/components/AuthInitializer';
 import { Toaster } from 'sonner';
 import OnboardingModal from '@/components/OnboardingModal';
 import { ModalProvider } from '@/components/shared/Providers/Modals';
+import AppMetaTags from '@/components/shared/AppMetaTags.astro';
 
 interface Props {
     title: string;
@@ -23,6 +24,7 @@ const { title } = Astro.props;
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <!-- <meta name="generator" content={Astro.generator} /> -->
         <title>{title}</title>
+        <AppMetaTags />
     </head>
     <body>
         <AuthInitializer client:load/>
