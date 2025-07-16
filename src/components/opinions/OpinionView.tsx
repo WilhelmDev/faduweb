@@ -53,13 +53,15 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
     try {
       setLoading(true);
       const newOpinions = await getOpinions(
-        15, 
-        page * 15, 
+        10, 
+        page * 10, 
         text || '', 
         career === null ? 0 : career || 0, 
         subject === null ? 0 : subject || 0
       );
-      if (newOpinions.data.length < 15) {
+      console.log(newOpinions.data.length)
+      if (newOpinions.data.length < 10) {
+
         setCanLoadMore(false);
       }
       setOpinions((prev) => reload ? newOpinions.data : [...prev, ...newOpinions.data]);
