@@ -1,5 +1,6 @@
 
 import { authToken, logout } from '@/stores/authStore';
+import { selectedFaculty } from '@/stores/facultyStore';
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { toast } from 'sonner';
 
@@ -18,6 +19,10 @@ axiosInstance.interceptors.request.use(
     const token = authToken.get();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token || ''}`;
+    }
+    const faculty = selectedFaculty.get();
+    if (faculty) {
+      config.headers['x-faculty-id'] = faculty.id;
     }
     return config;
   },

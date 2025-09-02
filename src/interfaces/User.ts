@@ -21,7 +21,8 @@ export interface User{
   "updated_at": Date,
   "userRole": UserRole[],
   "career": Career,
-  "image": Image
+  "image": Image,
+  "faculty_id": number | null,
 }
 export interface UserRole{
   "id": number,

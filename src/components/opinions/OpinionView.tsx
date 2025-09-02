@@ -16,6 +16,7 @@ import { isAuthenticated } from '@/stores/authStore'; // Asegúrate de que la ru
 import { toast } from 'sonner';
 import { closeModals, isCreateOpinionModalOpen } from '@/stores/modalStore';
 import CreateOpinionButton from '../shared/CreateOpinionButton';
+import { selectedFaculty } from '@/stores/facultyStore';
 
 interface OpinionViewProps {}
 
@@ -52,10 +53,12 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
     if (loading) return;
     try {
       setLoading(true);
+      const faculty = selectedFaculty.get();
       const newOpinions = await getOpinions(
         10, 
-        page * 10, 
+        page * 10,
         text || '', 
+        faculty? faculty.id : null,
         career === null ? 0 : career || 0, 
         subject === null ? 0 : subject || 0
       );

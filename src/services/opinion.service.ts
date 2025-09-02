@@ -2,12 +2,13 @@ import type { Opinion, OpinionPayload } from "@/interfaces/Opinion";
 import type { PaginatedEp } from "@/interfaces/Response";
 import Api from "@/services";
 
-export async  function getOpinions(limit: number, offset: number, search:string, career_id?:number, subject_id?:number): Promise<PaginatedEp<Opinion[]>> {
+export async  function getOpinions(limit: number, offset: number, search:string, faculty_id: null | number, career_id?:number, subject_id?:number): Promise<PaginatedEp<Opinion[]>> {
   try {
     const response = await Api.get<PaginatedEp<Opinion[]>>('/opinion/all/web', { params: {
       limit, offset, search,
       ...((career_id && career_id > 0) ? { career_id }: {}),
-      ...((subject_id && subject_id > 0) ? { subject_id }: {})
+      ...((subject_id && subject_id > 0) ? { subject_id }: {}),
+      ...((faculty_id && faculty_id > 0) ? { faculty_id }: {})
       }}
     )
     return response;
