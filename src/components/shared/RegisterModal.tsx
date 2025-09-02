@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { createUser } from '@/services/auth.service';
 import { login } from '@/stores/authStore';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { faculties, fetchFaculties } from '@/stores/facultyStore';
+import { useStore } from '@nanostores/react';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -22,16 +25,31 @@ const registerSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
   lastname: z.string().min(1, 'El apellido es obligatorio'),
   username: z.string().min(1, 'El nombre de usuario es obligatorio'),
+  faculty_id: z.string().min(1, 'Debes seleccionar una facultad'),
 });
 
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onLoginClick }) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<RegisterFormInputs>({
+  const { register, handleSubmit, control, formState: { errors, isSubmitting }, reset } = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerSchema)
   });
 
   const [error, setError] = useState<string | null>(null);
+  const $faculties = useStore(faculties);
+  const [loadingFaculties, setLoadingFaculties] = useState(false);
+
+  useEffect(() => {
+    const loadFaculties = async () => {
+      if ($faculties.length === 0) {
+        setLoadingFaculties(true);
+        await fetchFaculties();
+        setLoadingFaculties(false);
+      }
+    };
+    
+    loadFaculties();
+  }, []);
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     try {
@@ -42,6 +60,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onLoginC
         name: data.name,
         lastname: data.lastname,
         username: data.username,
+        faculty_id: parseInt(data.faculty_id),
         apple_user: false,
         emailError: null,
         passwordError: null,
@@ -164,6 +183,42 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onLoginC
               disabled={isSubmitting}
             />
             {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
+          </div>
+          
+          <div>
+            <label htmlFor="faculty_id" className="block text-sm font-medium text-foreground mb-1">
+              Facultad
+            </label>
+            <Controller
+              name="faculty_id"
+              control={control}
+              render={({ field }) => (
+                <Select 
+                  onValueChange={field.onChange} 
+                  value={field.value}
+                  disabled={isSubmitting || loadingFaculties}
+                >
+                  <SelectTrigger className={`w-full ${errors.faculty_id ? 'border-red-500' : ''}`}>
+                    <SelectValue placeholder="Selecciona tu facultad" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {loadingFaculties ? (
+                      <div className="flex items-center justify-center p-2">
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        <span>Cargando...</span>
+                      </div>
+                    ) : (
+                      $faculties.map((faculty) => (
+                        <SelectItem key={faculty.id} value={faculty.id.toString()}>
+                          {faculty.title}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.faculty_id && <p className="text-red-500 text-xs mt-1">{errors.faculty_id.message}</p>}
           </div>
           
           <Button type="submit" className="w-full mt-6" disabled={isSubmitting}>
