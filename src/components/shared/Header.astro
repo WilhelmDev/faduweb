@@ -7,7 +7,7 @@ import { isAuthenticated } from '@/stores/authStore';
 import CreateOpinionButton from "./CreateOpinionButton";
 import NavigationLinks from "./NavigationLinks";
 import { Menu } from "lucide-react";
-
+import FacultySelector from "./FacultySelector";
 ---
 
 <header class="bg-background border-b border-border">
@@ -28,6 +28,7 @@ import { Menu } from "lucide-react";
           </Button>
         </div>
         <div class="hidden md:flex gap-2">
+          <FacultySelector client:load />
           <CreateOpinionButton client:load />
           <AuthButton client:load/>
         </div>
@@ -37,9 +38,12 @@ import { Menu } from "lucide-react";
   <div id="mobileMenu" class="hidden md:hidden">
     <div class="px-4 py-2 space-y-2 flex flex-col gap-2">
       <NavigationLinks client:load />
-      <div class="flex justify-between">
-        <CreateOpinionButton client:load />
-        <AuthButton client:load/>
+      <div class="flex flex-col gap-2">
+        <FacultySelector client:load />
+        <div class="flex justify-between">
+          <CreateOpinionButton client:load />
+          <AuthButton client:load/>
+        </div>
       </div>
     </div>
   </div>
@@ -53,5 +57,4 @@ import { Menu } from "lucide-react";
       mobileMenu.classList.toggle('hidden');
     });
   }
-
 </script>

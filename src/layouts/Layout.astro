@@ -7,6 +7,8 @@ import { Toaster } from 'sonner';
 import OnboardingModal from '@/components/OnboardingModal';
 import { ModalProvider } from '@/components/shared/Providers/Modals';
 import AppMetaTags from '@/components/shared/AppMetaTags.astro';
+import FacultyInitializer from '@/components/FacultyInitializer';
+import ContentLoader from '@/components/shared/ContentLoader';
 
 interface Props {
     title: string;
@@ -28,10 +30,13 @@ const { title } = Astro.props;
     </head>
     <body>
         <AuthInitializer client:load/>
+        <FacultyInitializer client:load/>
         <Toaster client:load />
         <OnboardingModal client:load/>
         <ModalProvider client:load />
         <Header/>
-        <slot />
+        <ContentLoader client:idle>
+            <slot />
+        </ContentLoader>
     </body>
 </html>
