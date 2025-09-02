@@ -48,6 +48,10 @@ export function setFaculty(faculty: Faculty) {
   selectedFaculty.set(faculty);
   // Guardar en localStorage para persistencia
   localStorage.setItem('selectedFacultyId', faculty.id.toString());
+  loadingFaculties.set(true);
+  setTimeout(() => {
+    loadingFaculties.set(false);
+  }, 500);
 }
 
 // Función para inicializar la facultad desde localStorage

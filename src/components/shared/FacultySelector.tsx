@@ -3,11 +3,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useStore } from '@nanostores/react';
 import { faculties, selectedFaculty, setFaculty, initFaculty, loadingFaculties, fetchFaculties } from '@/stores/facultyStore';
 import { Loader2 } from 'lucide-react';
+import { getCurrentUser, isAuthenticated } from '@/stores/authStore';
 
 const FacultySelector: React.FC = () => {
   const $selectedFaculty = useStore(selectedFaculty);
   const $faculties = useStore(faculties);
   const $loadingFaculties = useStore(loadingFaculties);
+  const $isauthenticated = useStore(isAuthenticated);
+  const $currentUser = getCurrentUser(); 
 
   useEffect(() => {
     // Inicializar las facultades y la selección al montar el componente
@@ -20,6 +23,13 @@ const FacultySelector: React.FC = () => {
     
     initialize();
   }, []);
+
+  useEffect(() => {
+    if ($isauthenticated && $currentUser) {
+      if (!$currentUser.faculty_id) return;
+      handleFacultyChange($currentUser.faculty_id.toString());
+    }
+  }, [$isauthenticated, $faculties])
 
   const handleFacultyChange = (value: string) => {
     const faculty = $faculties.find(f => f.id.toString() === value);
@@ -43,10 +53,15 @@ const FacultySelector: React.FC = () => {
 
   return (
     <Select 
-      value={$selectedFaculty.id.toString()} 
+      value={
+        $currentUser 
+          ? $currentUser.faculty_id?.toString() 
+          : $selectedFaculty.id.toString()
+        }
+      disabled={$isauthenticated}
       onValueChange={handleFacultyChange}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-full md:w-[180px]">
         <SelectValue placeholder="Seleccionar facultad" />
       </SelectTrigger>
       <SelectContent>
