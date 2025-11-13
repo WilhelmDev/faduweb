@@ -37,6 +37,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
 
   const $isAuthenticated = useStore(isAuthenticated);
   const $isCreateOpinionModalOpen = useStore(isCreateOpinionModalOpen);
+  const $selectedFaculty = useStore(selectedFaculty);
 
   const fetchData = async () => {
     try {
@@ -80,11 +81,11 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, [$selectedFaculty])
 
   useEffect(() => {
     fetchOpinions(false);
-  }, [page])
+  }, [page, $selectedFaculty])
 
   useEffect(() => {
     setShowCreateModal($isCreateOpinionModalOpen)

@@ -3,6 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import type { Career } from '@/interfaces/Career';
 import type { Subject } from '@/interfaces/Subject';
+import FacultySelector from '../shared/FacultySelector';
 
 interface FilterOpinionsProps {
   careers: Career[];
@@ -34,6 +35,7 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
   return (
     <div className="flex flex-col-reverse items-center md:justify-center md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
       <div className="flex w-full md:w-2/6 sm:gap-4">
+      <FacultySelector />
         <Select
           onValueChange={(value) => setSelectedCareer(value)}
           value={selectedCareer}
