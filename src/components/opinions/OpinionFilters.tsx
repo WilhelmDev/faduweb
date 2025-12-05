@@ -33,14 +33,15 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
   }, [selectedCareer, selectedSubject, searchTerm]);
 
   return (
-    <div className="flex flex-col-reverse items-center md:justify-center md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-      <div className="flex w-full md:w-2/6 sm:gap-4">
-      <FacultySelector />
+    <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4 mb-6 w-full px-4">
+      <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto md:flex-1 md:max-w-2xl">
+        <FacultySelector />
+        
         <Select
           onValueChange={(value) => setSelectedCareer(value)}
           value={selectedCareer}
         >
-          <SelectTrigger className="w-1/2">
+          <SelectTrigger className="w-full sm:flex-1">
             <SelectValue placeholder="Seleccionar Carrera" />
           </SelectTrigger>
           <SelectContent>
@@ -57,7 +58,7 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
           onValueChange={(value) => setSelectedSubject(value)}
           value={selectedSubject}
         >
-          <SelectTrigger className="w-1/2">
+          <SelectTrigger className="w-full sm:flex-1">
             <SelectValue placeholder="Seleccionar Materia" />
           </SelectTrigger>
           <SelectContent>
@@ -74,7 +75,7 @@ export const FilterOpinions: React.FC<FilterOpinionsProps> = ({ careers, subject
       <Input
         type="text"
         placeholder="Buscar..."
-        className="w-full not-sm:mb-2 md:w-1/6"
+        className="w-full md:w-64"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
