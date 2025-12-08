@@ -9,6 +9,7 @@ import { ModalProvider } from '@/components/shared/Providers/Modals';
 import AppMetaTags from '@/components/shared/AppMetaTags.astro';
 import FacultyInitializer from '@/components/FacultyInitializer';
 import ContentLoader from '@/components/shared/ContentLoader';
+import GoogleAnalytics from '@/components/shared/GoogleAnalytics.astro';
 
 interface Props {
     title: string;
@@ -25,6 +26,7 @@ const { title } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/logo.png" />
         <!-- <meta name="generator" content={Astro.generator} /> -->
+        <GoogleAnalytics />
         <title>{title}</title>
         <AppMetaTags />
     </head>

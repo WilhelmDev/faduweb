@@ -4,6 +4,7 @@ import { useStore } from '@nanostores/react';
 import { faculties, selectedFaculty, setFaculty, initFaculty, loadingFaculties, fetchFaculties } from '@/stores/facultyStore';
 import { Loader2 } from 'lucide-react';
 import { getCurrentUser, isAuthenticated } from '@/stores/authStore';
+import { trackFilterChange } from '@/lib/analytics';
 
 const FacultySelector: React.FC = () => {
   const $selectedFaculty = useStore(selectedFaculty);
@@ -27,14 +28,19 @@ const FacultySelector: React.FC = () => {
   useEffect(() => {
     if ($isauthenticated && $currentUser) {
       if (!$currentUser.faculty_id) return;
-      handleFacultyChange($currentUser.faculty_id.toString());
+      handleFacultyChange($currentUser.faculty_id.toString(), false);
     }
   }, [$isauthenticated, $faculties])
 
-  const handleFacultyChange = (value: string) => {
+  const handleFacultyChange = (value: string, trackEvent: boolean = true) => {
     const faculty = $faculties.find(f => f.id.toString() === value);
     if (faculty) {
       setFaculty(faculty);
+      
+      // Solo trackear si es un cambio manual del usuario (no automático)
+      if (trackEvent) {
+        trackFilterChange('faculty', value, faculty.title);
+      }
     }
   };
 
@@ -59,7 +65,7 @@ const FacultySelector: React.FC = () => {
           : $selectedFaculty.id.toString()
         }
       disabled={$isauthenticated}
-      onValueChange={handleFacultyChange}
+      onValueChange={(value) => handleFacultyChange(value, true)}
     >
       <SelectTrigger className="w-full md:w-[180px]">
         <SelectValue placeholder="Seleccionar facultad" />
