@@ -25,7 +25,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [canLoadMore, setCanLoadMore] = useState(true);
   const [filterCareer, setFilterCareer] = useState<number | null>(null);
   const [filterSubject, setFilterSubject] = useState<number | null>(null);
@@ -57,7 +57,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
       const faculty = selectedFaculty.get();
       const newOpinions = await getOpinions(
         10, 
-        page * 10,
+        page,
         text || '', 
         faculty? faculty.id : null,
         career === null ? 0 : career || 0, 
@@ -105,7 +105,7 @@ export const OpinionView: React.FC<OpinionViewProps> = () => {
     setFilterCareer(newFilterCareer);
     setFilterSubject(newFilterSubject);
     setSearchText(search);
-    setPage(0);
+    setPage(1);
     setCanLoadMore(true);
     setOpinions([]);
     
